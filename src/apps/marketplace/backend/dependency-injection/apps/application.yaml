@@ -1,0 +1,12 @@
+services:
+  Apps.Marketplace.Backend.controllers.StatusGetController:
+    class: ../../controllers/StatusGetController
+    arguments: []
+
+  Apps.Marketplace.Backend.controllers.RegisterPutController:
+    class: ../../controllers/user/RegisterPutController
+    arguments: ['@Marketplace.Shared.domain.CommandBus']
+
+  Apps.Marketplace.Backend.controllers.LoginPostController:
+    class: ../../controllers/user/LoginPostController
+    arguments: ['@Marketplace.Shared.domain.QueryBus']

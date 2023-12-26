@@ -1,0 +1,24 @@
+services:
+  Backoffice.User.domain.BackofficeUserRepository:
+    class: ../../../../../Contexts/Backoffice/User/infrastructure/persistence/TypeOrmBackofficeUserRepository
+    arguments: ['@Backoffice.Shared.ConnectionManager']
+
+  Backoffice.User.application.BackofficeUserCreator:
+    class: ../../../../../Contexts/Backoffice/User/application/Create/BackofficeUserCreator
+    arguments: ['@Backoffice.User.domain.BackofficeUserRepository']
+
+  Backoffice.User.CreateBackofficeUserOnUserRegistered:
+    class: ../../../../../Contexts/Backoffice/User/application/Create/CreateBackofficeUserOnUserRegistered
+    arguments: ['@Backoffice.User.application.BackofficeUserCreator']
+    tags:
+      - { name: 'domainEventSubscriber' }
+
+  Backoffice.User.application.BackofficeUsersFinder:
+    class: ../../../../../Contexts/Backoffice/User/application/SearchAll/BackofficeUsersFinder
+    arguments: ['@Backoffice.User.domain.BackofficeUserRepository']
+
+  Backoffice.User.SearchAllBackofficeUsersQueryHandler:
+    class: ../../../../../Contexts/Backoffice/User/application/SearchAll/SearchAllBackofficeUsersQueryHandler
+    arguments: ['@Backoffice.User.application.BackofficeUsersFinder']
+    tags:
+      - { name: 'queryHandler' }

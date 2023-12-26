@@ -1,0 +1,64 @@
+services:
+  Shared.Logger:
+    class: ../../../../../Contexts/Shared/infrastructure/WinstonLogger
+    arguments: []
+
+  Backoffice.Shared.TypeOrmConfig:
+    factory:
+      class: ../../../../../Contexts/Backoffice/Shared/infrastructure/persistence/postgres/TypeOrmConfigFactory
+      method: 'createConfig'
+
+  Backoffice.Shared.ConnectionManager:
+    factory:
+      class: ../../../../../Contexts/Shared/infrastructure/persistence/typeorm/TypeOrmClientFactory
+      method: 'createClient'
+    arguments: ['backoffice', '@Backoffice.Shared.TypeOrmConfig']
+
+  Backoffice.Shared.CommandHandlers:
+    class: ../../../../../Contexts/Shared/infrastructure/CommandBus/CommandHandlers
+    arguments: ['!tagged commandHandler']
+
+  Backoffice.Shared.domain.CommandBus:
+    class: ../../../../../Contexts/Shared/infrastructure/CommandBus/InMemoryCommandBus
+    arguments: ['@Backoffice.Shared.CommandHandlers']
+
+  Backoffice.Shared.QueryHandlers:
+    class: ../../../../../Contexts/Shared/infrastructure/QueryBus/QueryHandlers
+    arguments: ['!tagged queryHandler']
+
+  Backoffice.Shared.domain.QueryBus:
+    class: ../../../../../Contexts/Shared/infrastructure/QueryBus/InMemoryQueryBus
+    arguments: ['@Backoffice.Shared.QueryHandlers']
+
+  Backoffice.Shared.RabbitMQConfig:
+    factory:
+      class: ../../../../../Contexts/Marketplace/Shared/infrastructure/RabbitMQ/RabbitMQConfigFactory
+      method: 'createConfig'
+
+  Backoffice.Shared.domain.EventBus:
+    factory:
+      class: ../../../../../Contexts/Marketplace/Shared/infrastructure/RabbitMQ/RabbitMQEventBusFactory
+      method: 'create'
+    arguments:
+      [
+        '@Backoffice.Shared.DomainEventFailoverPublisher',
+        '@Backoffice.Shared.RabbitMQConnection',
+        '@Backoffice.Shared.RabbitMQqueueFormatter',
+        '@Backoffice.Shared.RabbitMQConfig'
+      ]
+
+  Backoffice.Shared.RabbitMQQueueFormatter:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/RabbitMQ/RabbitMQqueueFormatter
+    arguments: ['backoffice']
+
+  Backoffice.Shared.RabbitMQConnection:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/RabbitMQ/RabbitMqConnection
+    arguments: ['@Backoffice.Shared.RabbitMQConfig']
+
+  Backoffice.Shared.RabbitMQqueueFormatter:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/RabbitMQ/RabbitMQqueueFormatter
+    arguments: ['backoffice']
+
+  Backoffice.Shared.DomainEventFailoverPublisher:
+    class: ../../../../../Contexts/Shared/infrastructure/EventBus/DomainEventFailoverPublisher/DomainEventFailoverPublisher
+    arguments: ['@Backoffice.Shared.ConnectionManager']

@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "rootDir": ".",
+    "strict": true,
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "outDir": "./dist"
+  },
+  "include": [
+    "src/**/**.ts",
+    "tests/**/**.ts",
+    "src/apps/backoffice/frontend/src/pages/Dashboard/index.tsx",
+    "src/apps/backoffice/frontend/src/pages/Messages/index.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/apps/backoffice/frontend",
+    "src/apps/marketing/frontend"
+  ]
+}

@@ -1,0 +1,10 @@
+imports:
+  - { resource: ./application.yaml }
+
+services:
+  Marketplace.EnvironmentArranger:
+    class: ../../../../../tests/Contexts/Shared/infrastructure/mongo/MongoEnvironmentArranger
+    arguments: ['@Marketplace.Shared.ConnectionManager']
+  Marketplace.Shared.domain.EventBus:
+    class: ../../../../Contexts/Shared/infrastructure/EventBus/InMemory/InMemoryAsyncEventBus
+    arguments: []

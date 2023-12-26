@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  [type='text'],
+  [type='email'],
+  [type='url'],
+  [type='password'],
+  [type='number'],
+  [type='date'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='week'],
+  [multiple],
+  textarea,
+  select {
+    @apply block w-full p-2 text-gray-900 border border-gray-300 rounded-lg
+					bg-gray-50 sm:text-sm focus:ring-primary focus:border-primary
+					dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+					dark:text-white dark:focus:ring-primary dark:focus:border-primary-light;
+  }
+  [type='checkbox'] {
+    @apply text-primary dark:text-primary-light focus:outline-none focus:ring-0 border-gray-300 rounded-sm dark:focus:ring-offset-slate-700;
+  }
+  [type='radio'] {
+    @apply text-primary dark:text-primary-light focus:outline-none focus:ring-0 border-gray-300 dark:focus:ring-offset-slate-700;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply focus:ring-1 focus:outline-none text-center
+    font-medium font-sans rounded-lg text-sm px-5 py-2   
+		flex justify-center items-center gap-2;
+  }
+  .btn-contained {
+    @apply text-white dark:text-gray-800 bg-primary hover:bg-primary-dark 
+    focus:ring-primary-light dark:bg-primary-light dark:hover:bg-primary-light 
+    dark:hover:bg-opacity-80 dark:focus:ring-primary disabled:bg-primary-light 
+    disabled:bg-opacity-40 disabled:text-primary disabled:text-opacity-30 
+    dark:disabled:bg-primary-light dark:disabled:bg-opacity-60 dark:disabled:text-gray-300;
+  }
+  .btn-outlined {
+    @apply bg-transparent border border-primary hover:bg-primary-100 text-primary focus:z-10 
+    focus:ring-primary focus:text-primary dark:focus:text-primary-light dark:bg-gray-800 dark:text-gray-400 
+    dark:border-gray-400 dark:hover:text-white dark:disabled:hover:text-gray-400 
+    dark:hover:bg-primary-100 disabled:bg-gray-100 dark:disabled:bg-gray-700 
+    disabled:text-gray-400 disabled:border-gray-300;
+  }
+  .btn-danger {
+    @apply text-white dark:text-gray-800 bg-red-500 hover:bg-red-600 focus:ring-red-400 
+    dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-700 disabled:bg-red-400 
+    disabled:bg-opacity-40 disabled:text-primary disabled:text-opacity-30 
+    dark:disabled:bg-red-400 dark:disabled:text-red-600;
+  }
+  .input-label {
+    @apply block mb-1 text-sm font-medium;
+  }
+  .divider {
+    @apply h-px w-full bg-gray-200 dark:bg-gray-500;
+  }
+  .link {
+    @apply text-primary dark:text-primary-light;
+  }
+  .surface {
+    @apply bg-surface dark:bg-surface-dark;
+  }
+}
+
+body {
+  @apply text-gray-900 dark:text-gray-300 bg-slate-50 dark:bg-slate-600;
+}
+
+p {
+  @apply text-base;
+}
+
+h1 {
+  @apply text-4xl font-semibold text-gray-900 dark:text-gray-100;
+}
+h2 {
+  @apply text-3xl font-semibold text-gray-900 dark:text-gray-100;
+}
+h3 {
+  @apply text-2xl font-semibold text-gray-900 dark:text-gray-100;
+}
+h4 {
+  @apply text-xl font-semibold text-gray-900 dark:text-gray-100;
+}
+h5 {
+  @apply text-lg font-semibold text-gray-900 dark:text-gray-100;
+}
+h6 {
+  @apply text-base font-semibold text-gray-900 dark:text-gray-100;
+}

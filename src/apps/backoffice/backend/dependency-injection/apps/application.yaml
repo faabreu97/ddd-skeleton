@@ -1,0 +1,32 @@
+services:
+  Apps.Backoffice.Backend.controllers.StatusGetController:
+    class: ../../controllers/StatusGetController
+    arguments: []
+
+  Apps.Backoffice.Backend.controllers.RegisterPutController:
+    class: ../../controllers/employee/RegisterPutController
+    arguments: ['@Backoffice.Shared.domain.CommandBus']
+
+  Apps.Backoffice.Backend.controllers.PasswordPutController:
+    class: ../../controllers/employee/PasswordPutController
+    arguments: ['@Backoffice.Shared.domain.CommandBus']
+
+  Apps.Backoffice.Backend.controllers.EmployeeDeleteController:
+    class: ../../controllers/employee/EmployeeDeleteController
+    arguments: ['@Backoffice.Shared.domain.CommandBus']
+
+  Apps.Backoffice.Backend.controllers.LoginPostController:
+    class: ../../controllers/employee/LoginPostController
+    arguments: ['@Backoffice.Shared.domain.QueryBus']
+
+  Apps.Backoffice.Backend.controllers.ProfileGetController:
+    class: ../../controllers/employee/ProfileGetController
+    arguments: ['@Backoffice.Shared.domain.QueryBus']
+
+  Apps.Backoffice.Backend.controllers.EmployeesGetController:
+    class: ../../controllers/employee/EmployeesGetController
+    arguments: ['@Backoffice.Shared.domain.QueryBus']
+
+  Apps.Backoffice.Backend.controllers.BackofficeUsersGetController:
+    class: ../../controllers/User/BackofficeUsersGetController
+    arguments: ['@Backoffice.Shared.domain.QueryBus']

@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "tests",
+    "src/apps/backoffice/frontend",
+    "src/apps/marketing/frontend"
+  ]
+}

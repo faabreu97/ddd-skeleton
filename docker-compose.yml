@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backoffice-db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=fandf
+      - POSTGRES_USER=fandf
+      - POSTGRES_DB=backoffice-backend-dev
+    ports:
+      - '5455:5432'
+    restart: always
+  marketplace-db:
+    image: mongo:7
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+    volumes:
+      - ./data/mongo:/data/db:delegated
+    ports:
+      - 27017:27017
+    restart: always
+  rabbitmq:
+    image: 'rabbitmq:3.8-management'
+    ports:
+      - 5672:5672
+      - 15672:15672
+volumes:
+  node_modules:
+  esdata:
+    driver: local
+networks:
+  postgres:
+    driver: bridge

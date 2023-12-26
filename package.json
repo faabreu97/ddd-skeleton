@@ -1,0 +1,113 @@
+{
+  "name": "ddd-project",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "./src/apps/backoffice/frontend"
+  ],
+  "engines": {
+    "node": ">=18.17.0",
+    "npm": ">=9.6.0"
+  },
+  "scripts": {
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "backoffice:typeorm": "npm run typeorm -- -d ./src/Contexts/Backoffice/Shared/infrastructure/persistence/postgres/MigrationTypeOrmClient.ts",
+    "backoffice:typeorm:generate": "npm run backoffice:typeorm migration:generate -n ./src/Contexts/Backoffice/Shared/infrastructure/persistence/postgres/migrations/migration",
+    "backoffice:typeorm:run": "npm run backoffice:typeorm migration:run",
+    "dev:backoffice:backend": "NODE_ENV=development ts-node-dev --ignore-watch node_modules ./src/apps/backoffice/backend/start.ts",
+    "dev:backoffice:frontend": "cd ./src/apps/backoffice/frontend && npm run dev",
+    "dev:marketplace:frontend": "cd ./src/apps/marketplace/frontend && npm run dev",
+    "dev:marketplace:backend": "NODE_ENV=development ts-node-dev --ignore-watch node_modules ./src/apps/marketplace/backend/start.ts",
+    "start:backoffice:backend": "NODE_ENV=production node dist/src/apps/backoffice/backend/start",
+    "start:marketplace:frontend": "cd ./src/apps/marketplace/frontend && npm run start",
+    "start:marketplace:backend": "NODE_ENV=production node dist/src/apps/marketplace/backend/start",
+    "build": "npm run build:backoffice:backend && npm run build --workspaces",
+    "build:tsc": "tsc -p tsconfig.prod.json",
+    "build:di": "copy 'src/**/*.{json,yaml,html,png}' dist/src",
+    "build:clean": "rm -r dist; exit 0",
+    "build:backoffice:backend": "npm run build:clean && npm run build:tsc && npm run build:di",
+    "build:backoffice:frontend": "cd ./src/apps/backoffice/frontend && npm run build",
+    "build:marketplace:frontend": "cd ./src/apps/marketing/frontend && npm run build",
+    "lint": "prettier --write src/**/*.ts{,x}",
+    "test": "npm run test:unit && npm run test:features",
+    "test:unit": "NODE_ENV=test jest --runInBand --detectOpenHandles",
+    "test:features": "npm run test:marketplace:features && npm run test:backoffice:features",
+    "test:backoffice:features": "npm run test:backoffice:backend:features && npm run test:backoffice:frontend:features",
+    "test:marketplace:features": "npm run test:marketplace:backend:features && npm run test:marketplace:frontend:features",
+    "test:backoffice:backend:features": "NODE_ENV=test npx cucumber-js -p backoffice_backend",
+    "test:backoffice:frontend:features": "NODE_ENV=test npx cucumber-js -p backoffice_frontend",
+    "test:marketplace:backend:features": "NODE_ENV=test npx cucumber-js -p marketplace_backend",
+    "test:marketplace:frontend:features": "NODE_ENV=test npx cucumber-js -p marketplace_frontend",
+    "command:marketplace:rabbitmq": "NODE_ENV=production ts-node src/apps/marketplace/backend/command/runConfigureRabbitMQCommand",
+    "command:backoffice:rabbitmq": "NODE_ENV=production ts-node src/apps/backoffice/backend/command/runConfigureRabbitMQCommand"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "argon2": "^0.31.2",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "convict": "^6.2.4",
+    "copy": "^0.3.2",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "errorhandler": "^1.5.1",
+    "express": "^4.18.2",
+    "express-promise-router": "^4.1.1",
+    "express-validator": "^6.10.0",
+    "glob": "^10.3.10",
+    "helmet": "^7.0.0",
+    "http-status": "^1.7.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^5.0.0",
+    "node-dependency-injection": "^2.6.11",
+    "pg": "^8.11.3",
+    "ts-node": "^10.9.1",
+    "typeorm": "^0.3.0",
+    "uuid": "^9.0.1",
+    "uuid-validate": "^0.0.3",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.1",
+    "@faker-js/faker": "^8.2.0",
+    "@playwright/test": "^1.40.0",
+    "@types/amqplib": "^0.10.4",
+    "@types/bcrypt": "^5.0.2",
+    "@types/compression": "^1.7.4",
+    "@types/convict": "^6.1.5",
+    "@types/cors": "^2.8.15",
+    "@types/crypto-js": "^4.2.0",
+    "@types/errorhandler": "^1.5.2",
+    "@types/express": "^4.17.20",
+    "@types/helmet": "^4.0.0",
+    "@types/jest": "^29.5.7",
+    "@types/jsonwebtoken": "^9.0.4",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^20.8.10",
+    "@types/supertest": "^2.0.15",
+    "@types/uuid": "^9.0.6",
+    "@types/uuid-validate": "^0.0.2",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.1.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{src,tests}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

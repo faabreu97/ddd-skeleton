@@ -1,0 +1,28 @@
+services:
+  Marketplace.User.domain.UserRepository:
+    class: ../../../../../Contexts/Marketplace/User/infrastructure/persistence/MongoUserRepository
+    arguments: ['@Marketplace.Shared.ConnectionManager']
+
+  Marketplace.User.application.UserRegistrar:
+    class: ../../../../../Contexts/Marketplace/User/application/Register/UserRegistrar
+    arguments:
+      [
+        '@Marketplace.User.domain.UserRepository',
+        '@Marketplace.Shared.domain.EventBus'
+      ]
+
+  Marketplace.User.RegisterUserCommandHandler:
+    class: ../../../../../Contexts/Marketplace/User/application/Register/RegisterUserCommandHandler
+    arguments: ['@Marketplace.User.application.UserRegistrar']
+    tags:
+      - { name: 'commandHandler' }
+
+  Marketplace.User.application.LoginUserFinder:
+    class: ../../../../../Contexts/Marketplace/User/application/Login/LoginUserFinder
+    arguments: ['@Marketplace.User.domain.UserRepository']
+
+  Marketplace.User.LoginUserQueryHandler:
+    class: ../../../../../Contexts/Marketplace/User/application/Login/LoginUserQueryHandler
+    arguments: ['@Marketplace.User.application.LoginUserFinder']
+    tags:
+      - { name: 'queryHandler' }

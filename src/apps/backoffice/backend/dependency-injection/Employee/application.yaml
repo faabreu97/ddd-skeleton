@@ -1,0 +1,68 @@
+services:
+  Backoffice.Employee.domain.EmployeeRepository:
+    class: ../../../../../Contexts/Backoffice/Employee/infrastructure/persistence/TypeOrmEmployeeRepository
+    arguments: ['@Backoffice.Shared.ConnectionManager']
+
+  Backoffice.Employee.application.EmployeeRegistrar:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Register/EmployeeRegistrar
+    arguments:
+      [
+        '@Backoffice.Employee.domain.EmployeeRepository',
+        '@Backoffice.Shared.domain.EventBus'
+      ]
+
+  Backoffice.Employee.RegisterEmployeeCommandHandler:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Register/RegisterEmployeeCommandHandler
+    arguments: ['@Backoffice.Employee.application.EmployeeRegistrar']
+    tags:
+      - { name: 'commandHandler' }
+
+  Backoffice.Employee.application.EmployeePasswordEditor:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Edit/EmployeePasswordEditor/EmployeePasswordEditor
+    arguments: ['@Backoffice.Employee.domain.EmployeeRepository']
+
+  Backoffice.Employee.ChangeEmployeePasswordCommandHandler:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Edit/EmployeePasswordEditor/ChangeEmployeePasswordCommandHandler
+    arguments: ['@Backoffice.Employee.application.EmployeePasswordEditor']
+    tags:
+      - { name: 'commandHandler' }
+
+  Backoffice.Employee.application.EmployeeRemover:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Remove/EmployeeRemover
+    arguments: ['@Backoffice.Employee.domain.EmployeeRepository']
+
+  Backoffice.Employee.RemoveEmployeeCommandHandler:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Remove/RemoveEmployeeCommandHandler
+    arguments: ['@Backoffice.Employee.application.EmployeeRemover']
+    tags:
+      - { name: 'commandHandler' }
+
+  Backoffice.Employee.application.LoginEmployeeFinder:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Login/LoginEmployeeFinder
+    arguments: ['@Backoffice.Employee.domain.EmployeeRepository']
+
+  Backoffice.Employee.LoginEmployeeQueryHandler:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Login/LoginEmployeeQueryHandler
+    arguments: ['@Backoffice.Employee.application.LoginEmployeeFinder']
+    tags:
+      - { name: 'queryHandler' }
+
+  Backoffice.Employee.application.EmployeeFinder:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Find/FindEmployee/EmployeeFinder
+    arguments: ['@Backoffice.Employee.domain.EmployeeRepository']
+
+  Backoffice.Employee.FindEmployeeQueryHandler:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Find/FindEmployee/FindEmployeeQueryHandler
+    arguments: ['@Backoffice.Employee.application.EmployeeFinder']
+    tags:
+      - { name: 'queryHandler' }
+
+  Backoffice.Employee.application.EmployeesFinder:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Find/FindEmployees/EmployeesFinder
+    arguments: ['@Backoffice.Employee.domain.EmployeeRepository']
+
+  Backoffice.Employee.FindEmployeesQueryHandler:
+    class: ../../../../../Contexts/Backoffice/Employee/application/Find/FindEmployees/FindEmployeesQueryHandler
+    arguments: ['@Backoffice.Employee.application.EmployeesFinder']
+    tags:
+      - { name: 'queryHandler' }
