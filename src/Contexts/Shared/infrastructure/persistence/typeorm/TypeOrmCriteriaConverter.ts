@@ -1,4 +1,5 @@
 import {
+  FindManyOptions,
   FindOptionsOrder,
   FindOptionsWhere,
   LessThan,
@@ -11,13 +12,6 @@ import { Filter } from '../../../domain/criteria/Filter';
 import { Operator } from '../../../domain/criteria/FilterOperator';
 import { Filters } from '../../../domain/criteria/Filters';
 import { Order } from '../../../domain/criteria/Order';
-
-interface TypeOrmQuery<T> {
-  filter: FindOptionsWhere<T>;
-  sort: FindOptionsOrder<T>;
-  skip: number;
-  limit: number;
-}
 
 interface TransformerFunction<T, K> {
   (value: T): K;
@@ -43,14 +37,12 @@ export class TypeOrmCriteriaConverter<T> {
     ]);
   }
 
-  public convert(criteria: Criteria): TypeOrmQuery<T> {
+  public convert(criteria: Criteria): FindManyOptions<T> {
     return {
-      filter: criteria.hasFilters()
-        ? this.generateFilter(criteria.filters)
-        : {},
-      sort: criteria.order.hasOrder() ? this.generateSort(criteria.order) : {},
+      where: criteria.hasFilters() ? this.generateFilter(criteria.filters) : {},
+      order: criteria.order.hasOrder() ? this.generateSort(criteria.order) : {},
       skip: criteria.offset || 0,
-      limit: criteria.limit || 0
+      take: criteria.limit || 0
     };
   }
 

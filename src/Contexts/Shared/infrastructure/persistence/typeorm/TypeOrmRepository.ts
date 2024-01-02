@@ -26,15 +26,11 @@ export abstract class TypeOrmRepository<T extends AggregateRoot> {
   }
 
   protected async searchByCriteria(criteria: Criteria): Promise<T[]> {
-    const query = this.criteriaConverter.convert(criteria);
+    const options = this.criteriaConverter.convert(criteria);
 
     const repository = await this.repository();
-    const values = await repository.find({
-      where: query.filter,
-      order: query.sort,
-      take: query.limit,
-      skip: query.skip
-    });
+    const values = await repository.find(options);
+
     return values;
   }
 }
