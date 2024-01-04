@@ -10,3 +10,7 @@ services:
   Apps.Marketplace.Backend.controllers.LoginPostController:
     class: ../../controllers/user/LoginPostController
     arguments: ['@Marketplace.Shared.domain.QueryBus']
+
+  Apps.Marketplace.Backend.controllers.ProfileGetController:
+    class: ../../controllers/user/ProfileGetController
+    arguments: ['@Marketplace.Shared.domain.QueryBus']

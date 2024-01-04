@@ -26,3 +26,13 @@ services:
     arguments: ['@Marketplace.User.application.LoginUserFinder']
     tags:
       - { name: 'queryHandler' }
+
+  Marketplace.User.application.UserFinder:
+    class: ../../../../../Contexts/Marketplace/User/application/Find/UserFinder
+    arguments: ['@Marketplace.User.domain.UserRepository']
+
+  Marketplace.User.FindUserQueryHandler:
+    class: ../../../../../Contexts/Marketplace/User/application/Find/FindUserQueryHandler
+    arguments: ['@Marketplace.User.application.UserFinder']
+    tags:
+      - { name: 'queryHandler' }

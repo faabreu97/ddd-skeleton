@@ -13,29 +13,29 @@ describe('FindEmployee QueryHandler', () => {
     repository = new EmployeeRepositoryMock();
   });
 
-  it('should find an existing user', async () => {
-    const user = await EmployeeMother.create();
-    repository.returnOnSearch(user);
+  it('should find an existing employee', async () => {
+    const employee = await EmployeeMother.create();
+    repository.returnOnSearch(employee);
 
     const handler = new FindEmployeeQueryHandler(
       new EmployeeFinder(repository)
     );
-    const query = new FindEmployeeQuery(user.id.value);
+    const query = new FindEmployeeQuery(employee.id.value);
 
     const response = await handler.handle(query);
 
     repository.assertSearch();
 
-    const expected = EmployeeResponseMother.create(user);
+    const expected = EmployeeResponseMother.create(employee);
     expect(expected).toEqual(response);
   });
-  it('should throw error if user do not exist', async () => {
-    const user = await EmployeeMother.create();
+  it('should throw error if employee do not exist', async () => {
+    const employee = await EmployeeMother.create();
 
     const handler = new FindEmployeeQueryHandler(
       new EmployeeFinder(repository)
     );
-    const query = new FindEmployeeQuery(user.id.value);
+    const query = new FindEmployeeQuery(employee.id.value);
 
     await expect(handler.handle(query)).rejects.toThrow(EmployeeNotFound);
 
