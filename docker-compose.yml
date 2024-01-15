@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=fandf
       - POSTGRES_DB=backoffice-backend-dev
     ports:
-      - '5455:5432'
+      - '5432:5432'
     restart: always
   marketplace-db:
     image: mongo:7
