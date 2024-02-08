@@ -8,7 +8,7 @@ describe('TypeOrmClientFactory', () => {
   beforeEach(async () => {
     client = await factory.createClient('test', {
       host: 'localhost',
-      port: 5455,
+      port: 5432,
       username: 'fandf',
       password: 'fandf',
       database: 'backoffice-backend-dev'
@@ -27,7 +27,7 @@ describe('TypeOrmClientFactory', () => {
   it('returns a client if it already exists', async () => {
     const newClient = await factory.createClient('test', {
       host: 'localhost',
-      port: 5455,
+      port: 5432,
       username: 'fandf',
       password: 'fandf',
       database: 'backoffice-backend-dev'

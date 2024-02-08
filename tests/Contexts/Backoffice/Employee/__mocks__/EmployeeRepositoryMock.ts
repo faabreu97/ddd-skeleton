@@ -11,7 +11,7 @@ export class EmployeeRepositoryMock implements EmployeeRepository {
   private searchByEmailMock: jest.Mock;
   private removeMock: jest.Mock;
 
-  private user: Nullable<Employee> = null;
+  private employees: Employee[] = [];
 
   constructor() {
     this.saveMock = jest.fn();
@@ -30,15 +30,15 @@ export class EmployeeRepositoryMock implements EmployeeRepository {
 
   async searchAll(): Promise<Employee[]> {
     this.searchAllMock();
-    return this.user ? [this.user] : [];
+    return this.employees ? this.employees : [];
   }
 
   assertSearchAll() {
     expect(this.searchAllMock).toHaveBeenCalled();
   }
 
-  async save(user: Employee): Promise<void> {
-    this.saveMock(user);
+  async save(employee: Employee): Promise<void> {
+    this.saveMock(employee);
   }
 
   assertSaveHaveBeenCalledWith(expected: Employee): void {
@@ -51,11 +51,11 @@ export class EmployeeRepositoryMock implements EmployeeRepository {
 
   async search(id: EmployeeId): Promise<Nullable<Employee>> {
     this.searchMock(id);
-    return this.user;
+    return this.employees.length > 0 ? this.employees.pop() : null;
   }
 
-  returnOnSearch(user: Employee) {
-    this.user = user;
+  returnOnSearch(employee: Employee) {
+    this.employees.push(employee);
   }
 
   assertSearch(times?: number) {
@@ -64,7 +64,7 @@ export class EmployeeRepositoryMock implements EmployeeRepository {
 
   async searchByEmail(email: EmailAddress): Promise<Nullable<Employee>> {
     this.searchByEmailMock(email);
-    return this.user;
+    return this.employees.length > 0 ? this.employees.pop() : null;
   }
 
   assertSearchByEmail() {

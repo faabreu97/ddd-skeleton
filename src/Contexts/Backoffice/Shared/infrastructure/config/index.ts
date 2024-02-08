@@ -24,7 +24,7 @@ const backofficeConfig = convict({
       doc: 'The database port',
       format: Number,
       env: 'TYPEORM_PORT',
-      default: 5455
+      default: 5432
     },
     username: {
       doc: 'The database username',

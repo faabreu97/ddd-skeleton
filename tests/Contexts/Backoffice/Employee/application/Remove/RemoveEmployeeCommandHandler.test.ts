@@ -1,5 +1,6 @@
 import { EmployeeRemover } from '../../../../../../src/Contexts/Backoffice/Employee/application/Remove/EmployeeRemover';
 import { RemoveEmployeeCommandHandler } from '../../../../../../src/Contexts/Backoffice/Employee/application/Remove/RemoveEmployeeCommandHandler';
+import { EmployeeActionNotAllowed } from '../../../../../../src/Contexts/Backoffice/Employee/domain/EmployeeActionNotAllowed';
 import { EmployeeRoles } from '../../../../../../src/Contexts/Backoffice/Employee/domain/EmployeeRole';
 import { ForbiddenError } from '../../../../../../src/Contexts/Shared/domain/ForbiddenError';
 import { EmployeeRepositoryMock } from '../../__mocks__/EmployeeRepositoryMock';
@@ -21,6 +22,7 @@ describe('RemoveEmployeeCommandHandler', () => {
     const command = RemoveEmployeeCommandMother.random();
     const employee = await EmployeeMother.create({ id: command.employeeId });
     repository.returnOnSearch(employee);
+    repository.returnOnSearch(employee);
 
     await handler.handle(command);
 
@@ -40,7 +42,9 @@ describe('RemoveEmployeeCommandHandler', () => {
     });
     repository.returnOnSearch(employee);
 
-    await expect(handler.handle(command)).rejects.toThrow(ForbiddenError);
+    await expect(handler.handle(command)).rejects.toThrow(
+      EmployeeActionNotAllowed
+    );
 
     repository.assertSearch();
   });
@@ -52,7 +56,9 @@ describe('RemoveEmployeeCommandHandler', () => {
     });
     repository.returnOnSearch(employee);
 
-    await expect(handler.handle(command)).rejects.toThrow(ForbiddenError);
+    await expect(handler.handle(command)).rejects.toThrow(
+      EmployeeActionNotAllowed
+    );
 
     repository.assertSearch();
   });

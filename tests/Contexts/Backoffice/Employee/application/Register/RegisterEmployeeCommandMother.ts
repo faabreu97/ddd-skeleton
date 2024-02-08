@@ -19,6 +19,7 @@ export class RegisterEmployeeCommandMother {
   ): RegisterEmployeeCommand {
     return this.create({
       id: data?.id ?? EmployeeIdMother.random().value,
+      employeeId: data?.employeeId ?? EmployeeIdMother.random().value,
       name: data?.name ?? EmployeeNameMother.random().value,
       email: data?.email ?? EmailAddressMother.random().value,
       password: data?.password ?? PasswordMother.random(),

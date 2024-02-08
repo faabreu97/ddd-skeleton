@@ -23,6 +23,7 @@ describe('RegisterUserCommandHandler', () => {
     const command = RegisterEmployeeCommandMother.random();
     const user = await EmployeeMother.from(command);
     const domainEvent = EmployeeRegisteredDomainEventMother.fromUser(user);
+    repository.returnOnSearch(user);
 
     await handler.handle(command);
 

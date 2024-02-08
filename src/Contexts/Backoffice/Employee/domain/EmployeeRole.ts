@@ -8,15 +8,15 @@ export enum EmployeeRoles {
 }
 
 export class EmployeeRole extends StringValueObject {
-  constructor(value: EmployeeRoles) {
+  constructor(value: string) {
     super(value);
     this.checkValueIsValid(value);
   }
 
-  private checkValueIsValid(value: EmployeeRoles): void {
+  private checkValueIsValid(value: string): void {
     if (!Object.keys(EmployeeRoles).includes(value)) {
       throw new InvalidArgumentError(
-        `<${value}> is not a valid value for user role`
+        `<${value}> is not a valid value for employee role`
       );
     }
   }

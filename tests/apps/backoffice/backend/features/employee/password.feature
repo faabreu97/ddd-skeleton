@@ -21,7 +21,8 @@ Feature: Change a employee password
         "id": "ef8ac118-8d7f-49cc-abec-78e0d05af80a",
         "name": "Cris Doe",
         "email": "crisdoe@example.com",
-        "password": "strong-password"
+        "password": "strong-password",
+        "role": "owner"
       }
       """
     And I send an authorized PUT request to "/employees/ef8ac118-8d7f-49cc-abec-78e0d05af80a/password" with body:

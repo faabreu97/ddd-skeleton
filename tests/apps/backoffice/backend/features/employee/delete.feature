@@ -14,7 +14,8 @@ Feature: Delete a employee
         "id": "fa46c9c7-c6e2-4d18-9d4d-ed02f3b22459",
         "name": "Joseph Doe",
         "email": "josephdoe@example.com",
-        "password": "strong-password"
+        "password": "strong-password",
+        "role": "owner"
       }
       """
     And there is the employee:

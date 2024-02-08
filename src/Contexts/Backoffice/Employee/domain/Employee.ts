@@ -64,8 +64,8 @@ export class Employee extends AggregateRoot {
     this.password = await Password.create(value);
   }
 
-  public isOwner() {
-    return this.role.value === EmployeeRoles.owner;
+  public hasRole(roles: EmployeeRole[]) {
+    return roles.some(role => this.role.value === role.value);
   }
 
   toPrimitives() {

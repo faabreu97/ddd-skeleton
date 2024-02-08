@@ -2,26 +2,27 @@ import { ForbiddenError } from '../../../../Shared/domain/ForbiddenError';
 import { EmployeeId } from '../../domain/EmployeeId';
 import { EmployeeNotFound } from '../../domain/EmployeeNotFound';
 import { EmployeeRepository } from '../../domain/EmployeeRepository';
+import { EmployeeRoles } from '../../domain/EmployeeRole';
+import { EmployeeRoleEnsurer } from '../../domain/EmployeeRoleEnsurer';
 
 export class EmployeeRemover {
-  constructor(private repository: EmployeeRepository) {}
+  private readonly ensurer: EmployeeRoleEnsurer;
+
+  constructor(private repository: EmployeeRepository) {
+    this.ensurer = new EmployeeRoleEnsurer(repository);
+  }
 
   async run(params: { employeeId: string; idToDelete: string }): Promise<void> {
     if (params.employeeId === params.idToDelete)
       throw new ForbiddenError('You can not delete your own account');
 
-    const user = await this.repository.search(
-      new EmployeeId(params.employeeId)
-    );
-    if (!user) throw new EmployeeNotFound('User does not exist');
-    if (!user.isOwner())
-      throw new ForbiddenError('Only owners can delete users');
+    await this.ensurer.run(params.employeeId, [EmployeeRoles.owner]);
 
-    const userToDelete = await this.repository.search(
+    const user = await this.repository.search(
       new EmployeeId(params.idToDelete)
     );
-    if (!userToDelete) throw new EmployeeNotFound('User does not exist');
+    if (!user) throw new EmployeeNotFound('User does not exist');
 
-    await this.repository.remove(userToDelete.id);
+    await this.repository.remove(user.id);
   }
 }

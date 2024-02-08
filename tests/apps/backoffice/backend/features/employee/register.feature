@@ -23,13 +23,14 @@ Feature: Register a new employee
         "id": "b88c4837-6229-4203-9e3c-d8f744a933f8",
         "name": "Will Doe",
         "email": "willdoe2@example.com",
-        "password": "strong-password"
+        "password": "strong-password",
+        "role": "owner"
       }
       """
-    And I send an authorized PUT request to "/employees/register/52fd77ec-d2c2-49aa-97a2-545faa0011c2" with body:
+    And I send an authorized PUT request to "/employees/register/54db0af7-1f3a-4ec2-9148-ad4429d8b018" with body:
       """
       {
-        "id": "52fd77ec-d2c2-49aa-97a2-545faa0011c2",
+        "id": "54db0af7-1f3a-4ec2-9148-ad4429d8b018",
         "name": "John Doe",
         "email": "johndoe@example.com",
         "password": "strong-password",
@@ -54,8 +55,8 @@ Feature: Register a new employee
       """
       {
         "id": "52fd77ec-d2c2-49aa-97a2-545faa0011c2",
-        "name": "John Doe",
-        "email": "johndoe@example.com",
+        "name": "Thor Doe",
+        "email": "thordoe@example.com",
         "password": "strong-password",
         "role": "owner"
       }
@@ -66,31 +67,42 @@ Feature: Register a new employee
     Given A employee registered:
       """
       {
-        "id": "9ff227cc-5c42-495a-b66f-6cce0e321afb",
+        "id": "f1208ef6-2560-45bf-ac19-675cc3595143",
         "name": "Steve Doe",
         "email": "stevedoe@example.com",
-        "password": "strong-password"
-      }
-      """
-    And I send an authorized PUT request to "/employees/register/9ff227cc-5c42-495a-b66f-6cce0e321afb" with body:
-      """
-      {
-        "id": "9ff227cc-5c42-495a-b66f-6cce0e321afb",
-        "name": "John Doe",
-        "email": "johndoe@example.com",
         "password": "strong-password",
         "role": "owner"
       }
       """
-    Then the response status code should be 403
+    And I send an authorized PUT request to "/employees/register/f1208ef6-2560-45bf-ac19-675cc3595143" with body:
+      """
+      {
+        "id": "f1208ef6-2560-45bf-ac19-675cc3595143",
+        "name": "Tony Doe",
+        "email": "tonydoe@example.com",
+        "password": "strong-password",
+        "role": "owner"
+      }
+      """
+    Then the response status code should be 400
 
   Scenario: Email should be unique
-    Given I send an authorized PUT request to "/employees/register/b66daed2-239c-486b-acff-fd98cde2c689" with body:
+    Given A employee registered:
+      """
+      {
+        "id": "f3904946-6f1d-4253-b267-95039caa54b3",
+        "name": "Hulk Doe",
+        "email": "hulkdoe@example.com",
+        "password": "strong-password",
+        "role": "owner"
+      }
+      """
+    And I send an authorized PUT request to "/employees/register/b66daed2-239c-486b-acff-fd98cde2c689" with body:
       """
       {
         "id": "b66daed2-239c-486b-acff-fd98cde2c689",
         "name": "John Doe",
-        "email": "johndoe@example.com",
+        "email": "hulkdoe@example.com",
         "password": "strong-password",
         "role": "owner"
       }

@@ -15,7 +15,8 @@ Feature: Retrieve all employees
         "id": "ef8ac118-8d7f-49cc-abec-78e0d05af80a",
         "name": "Jane Doe",
         "email": "janedoe@example.com",
-        "password": "strong-password"
+        "password": "strong-password",
+        "role": "owner"
       }
       """
     And I send an authorized GET request to "/employees"

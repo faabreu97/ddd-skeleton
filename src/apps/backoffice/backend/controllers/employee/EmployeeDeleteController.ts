@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import httpStatus from 'http-status';
+import { EmployeeActionNotAllowed } from '../../../../../Contexts/Backoffice/Employee/domain/EmployeeActionNotAllowed';
 import { EmployeeNotFound } from '../../../../../Contexts/Backoffice/Employee/domain/EmployeeNotFound';
 import { RemoveEmployeeCommand } from '../../../../../Contexts/Backoffice/Employee/domain/RemoveEmployeeCommand';
 import { CommandBus } from '../../../../../Contexts/Shared/domain/CommandBus';
@@ -22,7 +23,10 @@ export default class EmployeeDeleteController implements Controller {
 
       res.status(httpStatus.OK).send();
     } catch (error) {
-      if (error instanceof ForbiddenError) {
+      if (
+        error instanceof ForbiddenError ||
+        error instanceof EmployeeActionNotAllowed
+      ) {
         res.status(httpStatus.FORBIDDEN).send({ message: error.message });
         return;
       }

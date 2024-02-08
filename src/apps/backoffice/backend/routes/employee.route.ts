@@ -1,12 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { body } from 'express-validator';
-import {
-  UserRequest,
-  allowedRoles,
-  protectedRoute,
-  validateReqSchema
-} from '.';
-import { EmployeeRoles } from '../../../../Contexts/Backoffice/Employee/domain/EmployeeRole';
+import { UserRequest, protectedRoute, validateReqSchema } from '.';
 import EmployeesGetController from '../controllers/employee/EmployeesGetController';
 import LoginPostController from '../controllers/employee/LoginPostController';
 import ProfileGetController from '../controllers/employee/ProfileGetController';
@@ -36,7 +30,6 @@ export const register = (router: Router) => {
   router.put(
     '/employees/register/:id',
     protectedRoute,
-    allowedRoles(EmployeeRoles.owner),
     reqSchema,
     validateReqSchema,
     (req: Request, res: Response) => registerPutController.run(req, res)
@@ -67,12 +60,8 @@ export const register = (router: Router) => {
   const employeesGetController: EmployeesGetController = container.get(
     'Apps.Backoffice.Backend.controllers.EmployeesGetController'
   );
-  router.get(
-    '/employees',
-    protectedRoute,
-    allowedRoles(EmployeeRoles.owner),
-    (req: Request, res: Response) =>
-      employeesGetController.run(req as UserRequest, res)
+  router.get('/employees', protectedRoute, (req: Request, res: Response) =>
+    employeesGetController.run(req as UserRequest, res)
   );
 
   const changePassReqSchema = [
